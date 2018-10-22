@@ -1,0 +1,80 @@
+<?php
+
+/*
+|--------------------------------------------------------------------------
+| Create The Application
+|--------------------------------------------------------------------------
+|
+| The first thing we will do is create a new Laravel application instance
+| which serves as the "glue" for all the components of Laravel, and is
+| the IoC container for the system binding all of the various parts.
+|
+*/
+
+$app = new Illuminate\Foundation\Application(
+    realpath(__DIR__.'/../')
+);
+
+/*
+|--------------------------------------------------------------------------
+| Bind Important Interfaces
+|--------------------------------------------------------------------------
+|
+| Next, we need to bind some important interfaces into the container so
+| we will be able to resolve them when needed. The kernels serve the
+| incoming requests to this application from both the web and CLI.
+|
+*/
+//这里传递的参数
+//
+/**
+ * $this->bindings[Illuminate\Contracts\Console\Kernel] = [
+ * 保存了静态成员[
+ * Illuminate\Contracts\Console\Kernel,
+ * App\Http\Kernel::class
+ * ],
+ * Application的具体实例
+ * ]
+ * 
+ * 
+ * 这里绑定的结果如下
+ * $this->bindings[Illuminate\Contracts\Console\Kernel] = [
+ *  return function ($container, $parameters = []) use ($abstract, $concrete) {
+            if ($abstract == $concrete) {
+                return $container->build($concrete);
+            }
+
+            //在这里实例化了App\Http\Kernel类
+            return $container->make($concrete, $parameters);
+        };
+ * ];
+ * **/
+ $app->singleton(
+     Illuminate\Contracts\Http\Kernel::class,
+     App\Http\Kernel::class
+ );
+//print_r($app->getBindings());
+
+
+$app->singleton(
+    Illuminate\Contracts\Console\Kernel::class,
+    App\Console\Kernel::class
+);
+
+$app->singleton(
+    Illuminate\Contracts\Debug\ExceptionHandler::class,
+    App\Exceptions\Handler::class
+);
+
+/*
+|--------------------------------------------------------------------------
+| Return The Application
+|--------------------------------------------------------------------------
+|
+| This script returns the application instance. The instance is given to
+| the calling script so we can separate the building of the instances
+| from the actual running of the application and sending responses.
+|
+*/
+
+return $app;
