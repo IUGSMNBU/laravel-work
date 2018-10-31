@@ -216,7 +216,7 @@ class Dispatcher implements DispatcherContract
 
         
         foreach ($this->getListeners($event) as $listener) {
-            echo "dispatcher:".$listener;
+            //echo "dispatcher:".$listener;
             $response = $listener($event, $payload);
 
             // If a response is returned from the listener and event halting is enabled

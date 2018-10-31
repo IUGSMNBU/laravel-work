@@ -35,6 +35,9 @@ return [
     |
     */
 
+    //框架在启动的时候会读取该参数
+    //drvier对应AuthManager类的里某个 方法
+    //provider对应具体的模型类比如EloquentUserProvider
     'guards' => [
         'web' => [
             'driver' => 'session',

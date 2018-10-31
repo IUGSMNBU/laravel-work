@@ -32,6 +32,7 @@ class EloquentUserProvider implements UserProvider
      */
     public function __construct(HasherContract $hasher, $model)
     {
+        //auth配置文件里的模型类
         $this->model = $model;
         $this->hasher = $hasher;
     }

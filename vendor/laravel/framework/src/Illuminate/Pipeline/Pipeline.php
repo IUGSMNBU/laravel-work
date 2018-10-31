@@ -97,10 +97,25 @@ class Pipeline implements PipelineContract
      */
     public function then(Closure $destination)
     {
+        /**
+         * function ($request) use ($route) {
+                            return $this->prepareResponse(
+                                $request, $route->run()
+                            );
+         * **/
+        //Closure $destination 该对象是控制器运行后返回的东西
+        //循环中间件并处理中间件，然后准备响应
         $pipeline = array_reduce(
             array_reverse($this->pipes), $this->carry(), $this->prepareDestination($destination)
         );
 
+        /**
+         * 
+         * $this->prepareResponse(
+             $request, $route->run()
+             );
+             封装了一堆匿名函数最终会运行这句话
+         * **/
         return $pipeline($this->passable);
     }
 
@@ -112,9 +127,35 @@ class Pipeline implements PipelineContract
      */
     protected function prepareDestination(Closure $destination)
     {
+        /**
+         * function ($request) use ($route) {
+         return $this->prepareResponse(
+         $request, $route->run()
+         );
+         * **/
         return function ($passable) use ($destination) {
+            /**
+             * function ($request) use ($route) {
+             return $this->prepareResponse(
+             $request, $route->run()
+             );
+             在此运行之后，返回的是
+             $this->prepareResponse(
+             $request, $route->run()
+             );
+             * **/
             return $destination($passable);
         };
+        
+        /**
+         *  return function ($passable) use ($destination) {
+             $this->prepareResponse(
+             $request, $route->run()
+             );
+        };
+        
+         * 
+         * **/
     }
 
     /**
@@ -147,6 +188,7 @@ class Pipeline implements PipelineContract
                     $parameters = [$passable, $stack];
                 }
 
+                //每个管道【中间件】有handle方法就会运行
                 return method_exists($pipe, $this->method)
                                 ? $pipe->{$this->method}(...$parameters)
                                 : $pipe(...$parameters);

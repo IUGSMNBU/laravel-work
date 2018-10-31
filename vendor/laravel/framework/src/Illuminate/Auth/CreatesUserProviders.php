@@ -79,6 +79,7 @@ trait CreatesUserProviders
      */
     protected function createEloquentProvider($config)
     {
+        //读取auth配置文件里model参数实例化对象返回
         return new EloquentUserProvider($this->app['hash'], $config['model']);
     }
 

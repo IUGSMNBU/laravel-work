@@ -98,10 +98,10 @@ class SessionGuard implements StatefulGuard, SupportsBasicAuth
                                 Session $session,
                                 Request $request = null)
     {
-        $this->name = $name;
-        $this->session = $session;
-        $this->request = $request;
-        $this->provider = $provider;
+        $this->name = $name;//门卫名
+        $this->session = $session;//session对象
+        $this->request = $request;//请求对象
+        $this->provider = $provider;//服务提供者对象
     }
 
     /**

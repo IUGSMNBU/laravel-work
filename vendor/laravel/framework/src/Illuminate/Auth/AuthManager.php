@@ -50,6 +50,7 @@ class AuthManager implements FactoryContract
     {
         $this->app = $app;
 
+        //user解决者
         $this->userResolver = function ($guard = null) {
             return $this->guard($guard)->user();
         };
@@ -63,8 +64,10 @@ class AuthManager implements FactoryContract
      */
     public function guard($name = null)
     {
+        //不传递参数就用配置auth配置文件里的默认门卫
         $name = $name ?: $this->getDefaultDriver();
 
+        //如果指定的门卫有就直接返回，否则
         return $this->guards[$name] ?? $this->guards[$name] = $this->resolve($name);
     }
 
@@ -78,6 +81,20 @@ class AuthManager implements FactoryContract
      */
     protected function resolve($name)
     {
+        /**
+         *   'guards' => [
+        'web' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+
+        'api' => [
+            'driver' => 'jwt',
+            'provider' => 'users',
+        ],
+    ],
+    得到配置文件里的门卫
+         * **/
         $config = $this->getConfig($name);
 
         if (is_null($config)) {
@@ -88,8 +105,10 @@ class AuthManager implements FactoryContract
             return $this->callCustomCreator($name, $config);
         }
 
+        //拼接门卫驱动方法
         $driverMethod = 'create'.ucfirst($config['driver']).'Driver';
 
+        //运行门卫驱动方法
         if (method_exists($this, $driverMethod)) {
             return $this->{$driverMethod}($name, $config);
         }

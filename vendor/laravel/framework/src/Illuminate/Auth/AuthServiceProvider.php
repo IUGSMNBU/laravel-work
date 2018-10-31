@@ -36,6 +36,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected function registerAuthenticator()
     {
+        //绑定auth=匿名函数
         $this->app->singleton('auth', function ($app) {
             // Once the authentication service has actually been requested by the developer
             // we will set a variable in the application indicating such. This helps us

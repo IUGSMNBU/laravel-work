@@ -29,25 +29,27 @@ class TestController extends Controller
 
         //return User::first();
         
-        
-        $db = new Manager();
-        $db->addConnection([
-            'driver'    => 'mysql',
-            'host'      => 'localhost',
-            'database'  => 'database',
-            'username'  => 'root',
-            'password'  => 'password',
-            'charset'   => 'utf8',
-            'collation' => 'utf8_unicode_ci',
-            'prefix'    => '',
-        ]);
+//
+//        $db = new Manager();
+//        $db->addConnection([
+//            'driver'    => 'mysql',
+//            'host'      => 'localhost',
+//            'database'  => 'database',
+//            'username'  => 'root',
+//            'password'  => 'password',
+//            'charset'   => 'utf8',
+//            'collation' => 'utf8_unicode_ci',
+//            'prefix'    => '',
+//        ]);
+//
+//        $db->setEventDispatcher(new Dispatcher(new Container()));
+//        $db->setAsGlobal();
+//        $db->bootEloquent();
+//
+//        $result = Manager::table("users")->where("id","<>",0)->get();
+//
+//        return $result;
 
-        $db->setEventDispatcher(new Dispatcher(new Container()));
-        $db->setAsGlobal();
-        $db->bootEloquent();
-
-        $result = Manager::table("users")->where("id","<>",0)->get();
-        echo sdfdsfsfs;
-        return $result;
+        return 12345;
     }
 }
